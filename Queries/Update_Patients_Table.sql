@@ -1,5 +1,6 @@
 -- Test Table
 SELECT * FROM hospital_db.patients;
+
 -- Results Example: First = Lavonia8, Last = Wunsch504, Maiden = Will178
 
 -- Updating table to remove numbers from 
@@ -27,3 +28,6 @@ WHERE
     FIRST REGEXP '[0-9]' 
     OR LAST REGEXP '[0-9]'
     OR MAIDEN REGEXP '[0-9]';
+   
+-- Test Updated Table 
+SELECT * FROM hospital_db.patients;
