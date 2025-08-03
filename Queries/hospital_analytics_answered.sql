@@ -89,11 +89,50 @@ LIMIT
 	10;
 
 -- d. What is the average total claim cost for encounters, broken down by payer?
+SELECT
+	DISTINCT(p.Name) AS Name,
+    ROUND(AVG(e.base_encounter_cost),2) AS Average_Encounter_Cost
+FROM
+	hospital_db.encounters e
+LEFT JOIN
+	hospital_db.payers p
+    ON e.PAYER = p.Id
+GROUP BY
+	Name
+ORDER BY
+	Name ASC;
 
 -- OBJECTIVE 3: PATIENT BEHAVIOR ANALYSIS
 
 -- a. How many unique patients were admitted each quarter over time?
+SELECT
+	YEAR(START) as Year,
+    QUARTER(START) as Quarter,
+	COUNT(distinct(PATIENT)) as Unique_Patients
+FROM
+	encounters
+GROUP BY
+	YEAR, 
+    QUARTER;
 
 -- b. How many patients were readmitted within 30 days of a previous encounter?
 
 -- c. Which patients had the most readmissions?
+
+-- Will have to calculate how many times a particular patient has returned wihtin 30 days
+-- Existing query shows the amount of times the patient has been admitted since 
+SELECT
+	p.First,
+    p.Last,
+    COUNT(DISTINCT(e.id)) AS Readmission
+FROM
+	hospital_db.encounters e
+    LEFT JOIN
+		hospital_db.patients p
+			ON e.PATIENT = p.ID
+GROUP BY
+	p.FIRST,
+    p.LAST
+ORDER BY
+	Readmission DESC;
+		
